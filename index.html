@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stream Bingo Maker</title>
+  <meta name="description"
+    content="Create custom bingo cards, share them online, and use them as transparent overlays in OBS Studio.">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <div class="app-container">
+
+    <aside class="sidebar-panel glass-panel">
+
+      <div class="logo-group">
+        <h1>Stream <span>Bingo</span></h1>
+      </div>
+
+      <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 0.5rem 0;">
+
+      <section class="form-group">
+        <label for="board-title">Board Title</label>
+        <input type="text" id="board-title" placeholder="">
+      </section>
+
+      <section class="form-group">
+        <label for="board-desc">Description (Optional)</label>
+        <textarea id="board-desc" placeholder=""></textarea>
+      </section>
+
+      <section class="form-group">
+        <div class="toggle-group">
+          <label for="toggle-free-space" style="margin-bottom: 0;">Center FREE Space</label>
+          <label class="switch">
+            <input type="checkbox" id="toggle-free-space" checked>
+            <span class="slider"></span>
+          </label>
+        </div>
+      </section>
+
+      <section class="form-group">
+        <label for="shuffle-mode">Shuffle Mode</label>
+        <select id="shuffle-mode">
+          <option value="none">Disable Shuffling (Fixed)</option>
+          <option value="everything" selected>Shuffle Everything</option>
+          <option value="rows">Shuffle Rows Only (Blocks)</option>
+          <option value="within-rows">Shuffle Within Rows</option>
+        </select>
+      </section>
+
+      <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 0.5rem 0;">
+
+      <div>
+        <label style="display: block; margin-bottom: 0.75rem;">Your Saved Boards</label>
+        <div id="gallery-list" class="gallery-section">
+          <div class="gallery-empty">No boards saved yet. Create one on the right!</div>
+        </div>
+      </div>
+
+    </aside>
+
+    <main class="main-content-panel glass-panel">
+      <header>
+        <div>
+          <h2 style="font-weight: 700; font-size: 1.5rem;">Bingo Board Editor</h2>
+          <p style="color: var(--text-secondary); font-size: 0.9rem;">Fill in 25 cells. Center cell will be auto-filled
+            if FREE Space is enabled.</p>
+        </div>
+        <div class="btn-group">
+          <button class="btn btn-secondary" id="btn-clear-grid">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2">
+              <path
+                d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M10 11v6M14 11v6" />
+            </svg>
+            Clear Grid
+          </button>
+        </div>
+      </header>
+
+      <div class="grid-editor-container">
+        <div class="editor-grid" id="editor-grid">
+        </div>
+      </div>
+
+      <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 0.5rem 0;">
+
+      <div style="display: flex; gap: 1rem; justify-content: space-between; flex-wrap: wrap;">
+        <button class="btn btn-secondary" id="btn-save-board">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2">
+            <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" />
+            <polyline points="17 21 17 13 7 13 7 21" />
+            <polyline points="7 3 7 8 15 8" />
+          </svg>
+          Save to local list
+        </button>
+
+        <div class="btn-group">
+          <button class="btn btn-primary" id="btn-generate-play">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2">
+              <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+              <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+            </svg>
+            Generate Play Link
+          </button>
+
+          <button class="btn btn-accent" id="btn-generate-obs">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2">
+              <path
+                d="M12 2a10 10 0 0 0-10 10c0 5.523 4.477 10 10 10s10-4.477 10-10A10 10 0 0 0 12 2zm1 11.23v2.77h-2v-2.77a2 2 0 1 1 2 0zm-1-6.23a3 3 0 0 1 3 3c0 1.25-.6 1.85-1.4 2.5-.7.57-1.6 1.3-1.6 2.5h-2c0-2 .93-2.67 1.83-3.33.67-.5 1.17-.9 1.17-1.67a1 1 0 0 0-1-1 1 1 0 0 0-1 1H8a3 3 0 0 1 3-3z" />
+            </svg>
+            Copy OBS URL
+          </button>
+        </div>
+      </div>
+
+    </main>
+
+  </div>
+
+  <div class="dialog-backdrop" id="share-dialog">
+    <div class="dialog-box">
+      <h3 class="dialog-title" id="share-title">Link Generated!</h3>
+      <p class="dialog-desc" id="share-desc">Copy this URL to share your bingo card or load it in your browser.</p>
+
+      <div class="url-copy-box">
+        <input type="text" id="share-url-input" readonly>
+        <button class="btn btn-primary" id="btn-copy-url">Copy</button>
+      </div>
+
+      <div class="btn-group" style="justify-content: flex-end;">
+        <a href="#" target="_blank" class="btn btn-accent" id="btn-open-link">Open in New Tab</a>
+        <button class="btn btn-secondary" id="btn-close-dialog">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="editor.js"></script>
+</body>
+
+</html>
