@@ -49,6 +49,25 @@ function hashCode(str) {
   return Math.abs(hash).toString(36);
 }
 
+function applyTheme(themeName) {
+  const existingLink = document.getElementById('theme-stylesheet');
+  if (existingLink) {
+    existingLink.remove();
+  }
+  
+  if (themeName && themeName !== 'default') {
+    const link = document.createElement('link');
+    link.id = 'theme-stylesheet';
+    link.rel = 'stylesheet';
+    link.href = `themes/${themeName}.css`;
+    document.head.appendChild(link);
+    document.body.className = document.body.className.replace(/\btheme-\S+/g, '');
+    document.body.classList.add(`theme-${themeName}`);
+  } else {
+    document.body.className = document.body.className.replace(/\btheme-\S+/g, '');
+  }
+}
+
 const SHUFFLE_MODES = ['none', 'everything', 'rows', 'within-rows'];
 
 const playTitle = document.getElementById('play-title');
@@ -96,9 +115,7 @@ async function init() {
   }
 
   const theme = urlParams.get('theme');
-  if (theme) {
-    document.body.classList.add(`theme-${theme}`);
-  }
+  applyTheme(theme);
 
   const size = urlParams.get('size');
   if (size) {

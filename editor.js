@@ -23,6 +23,25 @@ async function compressData(dataString) {
   }
 }
 
+function applyTheme(themeName) {
+  const existingLink = document.getElementById('theme-stylesheet');
+  if (existingLink) {
+    existingLink.remove();
+  }
+
+  if (themeName && themeName !== 'default') {
+    const link = document.createElement('link');
+    link.id = 'theme-stylesheet';
+    link.rel = 'stylesheet';
+    link.href = `themes/${themeName}.css`;
+    document.head.appendChild(link);
+    document.body.className = document.body.className.replace(/\btheme-\S+/g, '');
+    document.body.classList.add(`theme-${themeName}`);
+  } else {
+    document.body.className = document.body.className.replace(/\btheme-\S+/g, '');
+  }
+}
+
 const SHUFFLE_CODES = {
   'none': 0,
   'everything': 1,
@@ -38,6 +57,7 @@ const descInput = document.getElementById('board-desc');
 const freeSpaceToggle = document.getElementById('toggle-free-space');
 const shuffleModeSelect = document.getElementById('shuffle-mode');
 const galleryList = document.getElementById('gallery-list');
+const themeSelect = document.getElementById('board-theme');
 
 const btnClearGrid = document.getElementById('btn-clear-grid');
 const btnSaveBoard = document.getElementById('btn-save-board');
@@ -236,6 +256,7 @@ function loadCard(id) {
   document.getElementById('board-theme').value = card.theme || 'default';
   document.getElementById('obs-size').value = card.size || '';
   document.getElementById('font-size-override').value = card.fontSize || '';
+  applyTheme(card.theme || 'default');
 
   const centerInput = cellInputs[12];
   if (freeSpaceToggle.checked) {
@@ -440,6 +461,10 @@ shareDialog.addEventListener('click', (e) => {
   }
 });
 
+themeSelect.addEventListener('change', (e) => {
+  applyTheme(e.target.value);
+});
+
 async function decompressData(base64str) {
   try {
     let standardBase64 = base64str.replace(/-/g, '+').replace(/_/g, '/');
@@ -480,6 +505,7 @@ async function loadCardFromUrl() {
     document.getElementById('board-theme').value = urlParams.get('theme') || 'default';
     document.getElementById('obs-size').value = urlParams.get('size') || '';
     document.getElementById('font-size-override').value = urlParams.get('fontsize') || '';
+    applyTheme(document.getElementById('board-theme').value);
 
     const centerInput = cellInputs[12];
     if (freeSpaceToggle.checked) {
