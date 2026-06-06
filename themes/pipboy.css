@@ -1,0 +1,226 @@
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+:root {
+  --bg-color: #050805;
+  --bg-panel: #0b140b;
+  --bg-card: #0e1e0e;
+  --border-color: #33ff33;
+  --border-hover: #88ff88;
+  --border-focus: #33ff33;
+
+  --accent-color: #33ff33;
+  --accent-hover: #1acc1a;
+
+  --text-primary: #33ff33;
+  --text-secondary: #22aa22;
+  --text-muted: #146614;
+
+  --cell-bg: #070d07;
+  --cell-hover: #33ff33;
+  --cell-marked-bg: #33ff33;
+  --cell-marked-border: #33ff33;
+  --cell-marked-text: #050805;
+
+  --font-sans: 'VT323', monospace;
+}
+
+body.theme-pipboy {
+  background-color: #050805;
+  background-image:
+    linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%),
+    linear-gradient(90deg, rgba(51, 255, 51, 0.03) 1px, transparent 1px),
+    linear-gradient(rgba(51, 255, 51, 0.03) 1px, transparent 1px);
+  background-size: 100% 4px, 30px 30px, 30px 30px;
+}
+
+.theme-pipboy,
+.theme-pipboy * {
+  text-shadow: 0 0 4px rgba(51, 255, 51, 0.6);
+}
+
+.theme-pipboy h1,
+.theme-pipboy h2,
+.theme-pipboy h3,
+.theme-pipboy label,
+.theme-pipboy button,
+.theme-pipboy input,
+.theme-pipboy select,
+.theme-pipboy textarea {
+  font-family: 'VT323', monospace !important;
+  font-size: 1.25rem;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.theme-pipboy .logo-group h1 {
+  font-size: 2.2rem;
+  color: #33ff33 !important;
+  border-bottom: 2px solid #33ff33;
+  padding-bottom: 0.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.theme-pipboy .logo-group h1 span {
+  color: #33ff33;
+  background-color: rgba(51, 255, 51, 0.15);
+  padding: 0 0.4rem;
+}
+
+.theme-pipboy .glass-panel {
+  background-color: var(--bg-panel);
+  border: 2px solid var(--border-color);
+  border-radius: 0px;
+  box-shadow: 0 0 10px rgba(51, 255, 51, 0.15);
+  position: relative;
+}
+
+.theme-pipboy .glass-panel::before {
+  content: 'PIP-BOY 3000 - ONLINE';
+  position: absolute;
+  top: -12px;
+  left: 10px;
+  background-color: #050805;
+  padding: 0 0.5rem;
+  font-size: 0.75rem;
+  color: var(--border-color);
+}
+
+.theme-pipboy input[type="text"],
+.theme-pipboy textarea,
+.theme-pipboy select {
+  background-color: #050805;
+  border: 1px dashed var(--border-color);
+  border-radius: 0px;
+  color: #33ff33;
+  box-shadow: none;
+}
+
+.theme-pipboy input[type="text"]:focus,
+.theme-pipboy textarea:focus,
+.theme-pipboy select:focus {
+  border-style: solid;
+  border-color: var(--border-hover);
+  outline: none;
+}
+
+.theme-pipboy .editor-cell-wrapper input {
+  background-color: #050805;
+  border: 1px dashed var(--border-color);
+  border-radius: 0px;
+  color: #33ff33;
+  font-size: 1.1rem;
+}
+
+.theme-pipboy .editor-cell-wrapper input:focus {
+  background-color: #0b140b;
+  border-style: solid;
+}
+
+.theme-pipboy .editor-cell-wrapper.center-cell input {
+  background-color: rgba(51, 255, 51, 0.1);
+  border-color: #33ff33;
+  border-style: solid;
+  font-weight: bold;
+}
+
+.theme-pipboy .btn {
+  background-color: transparent;
+  border: 2px solid var(--border-color);
+  color: #33ff33;
+  border-radius: 0px;
+  transition: all 0.15s ease;
+}
+
+.theme-pipboy .btn:hover {
+  background-color: rgba(51, 255, 51, 0.15);
+  border-color: var(--border-hover);
+}
+
+.theme-pipboy .btn:active {
+  background-color: rgba(51, 255, 51, 0.3);
+}
+
+.theme-pipboy .btn-primary {
+  background-color: rgba(51, 255, 51, 0.1);
+}
+
+.theme-pipboy .btn-accent {
+  background-color: var(--border-color);
+  color: #050805;
+  text-shadow: none;
+}
+
+.theme-pipboy .btn-accent:hover {
+  background-color: var(--border-hover);
+  color: #050805;
+}
+
+.theme-pipboy .bingo-cell {
+  background-color: var(--cell-bg);
+  border: 2px solid var(--border-color);
+  border-radius: 0px;
+  color: #33ff33;
+  font-size: 1.35rem;
+}
+
+.theme-pipboy .bingo-cell:hover {
+  background-color: var(--border-color);
+  color: #050805;
+}
+
+.theme-pipboy .bingo-cell:hover .bingo-cell-content {
+  color: #050805 !important;
+  text-shadow: none;
+}
+
+.theme-pipboy .bingo-cell.marked {
+  background-color: var(--border-color) !important;
+  border-color: var(--border-color) !important;
+}
+
+.theme-pipboy .bingo-cell.marked .bingo-cell-content {
+  color: #050805 !important;
+  text-shadow: none;
+}
+
+.theme-pipboy .bingo-cell.marked .stamp-overlay {
+  opacity: 0.95;
+  transform: scale(1);
+}
+
+.theme-pipboy .bingo-cell.marked .stamp-overlay svg {
+  stroke: #050805;
+  stroke-width: 3.5;
+  filter: none;
+}
+
+.theme-pipboy .card-item {
+  background-color: #050805;
+  border: 1px dashed var(--border-color);
+  border-radius: 0px;
+}
+
+.theme-pipboy .card-item:hover {
+  background-color: rgba(51, 255, 51, 0.1);
+  border-style: solid;
+}
+
+.theme-pipboy .dialog-box {
+  background-color: #0b140b;
+  border: 2px solid var(--border-color);
+  border-radius: 0px;
+  box-shadow: 0 0 20px rgba(51, 255, 51, 0.2);
+}
+
+body.obs-mode.theme-pipboy .bingo-board-wrapper {
+  filter: drop-shadow(0 0 6px rgba(51, 255, 51, 0.4));
+}
+
+body.obs-mode.theme-pipboy .bingo-cell {
+  background-color: rgba(5, 8, 5, 0.95);
+  border: 2px solid var(--border-color);
+}
+
+body.obs-mode.theme-pipboy .bingo-cell.marked {
+  background-color: rgba(51, 255, 51, 0.95) !important;
+}
