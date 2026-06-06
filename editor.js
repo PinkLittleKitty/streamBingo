@@ -112,7 +112,10 @@ function getCardData() {
     description: descInput.value.trim(),
     freeSpace: freeSpaceToggle.checked,
     shuffleMode: shuffleModeSelect.value,
-    tiles: tiles
+    tiles: tiles,
+    theme: document.getElementById('board-theme').value,
+    size: document.getElementById('obs-size').value.trim(),
+    fontSize: document.getElementById('font-size-override').value.trim()
   };
 }
 
@@ -150,6 +153,16 @@ async function generateUrl(isObs = false) {
 
   const randomSeed = Math.floor(Math.random() * 1000000);
   url += `&seed=${randomSeed}`;
+
+  if (data.theme && data.theme !== 'default') {
+    url += `&theme=${data.theme}`;
+  }
+  if (data.size) {
+    url += `&size=${encodeURIComponent(data.size)}`;
+  }
+  if (data.fontSize) {
+    url += `&fontsize=${encodeURIComponent(data.fontSize)}`;
+  }
 
   if (isObs) {
     url += '&obs=true';
@@ -220,6 +233,9 @@ function loadCard(id) {
   descInput.value = card.description || '';
   freeSpaceToggle.checked = card.freeSpace !== false;
   shuffleModeSelect.value = card.shuffleMode || 'everything';
+  document.getElementById('board-theme').value = card.theme || 'default';
+  document.getElementById('obs-size').value = card.size || '';
+  document.getElementById('font-size-override').value = card.fontSize || '';
 
   const centerInput = cellInputs[12];
   if (freeSpaceToggle.checked) {
@@ -262,6 +278,9 @@ function deleteCard(id, event) {
     cellInputs[12].disabled = true;
     cellInputs[12].parentElement.classList.add('center-cell');
     shuffleModeSelect.value = 'everything';
+    document.getElementById('board-theme').value = 'default';
+    document.getElementById('obs-size').value = '';
+    document.getElementById('font-size-override').value = '';
   }
 
   saveSavedCards(saved);
@@ -457,6 +476,10 @@ async function loadCardFromUrl() {
     descInput.value = compact[1] || '';
     freeSpaceToggle.checked = compact[2] === 1;
     shuffleModeSelect.value = SHUFFLE_MODES[compact[3]] || 'everything';
+
+    document.getElementById('board-theme').value = urlParams.get('theme') || 'default';
+    document.getElementById('obs-size').value = urlParams.get('size') || '';
+    document.getElementById('font-size-override').value = urlParams.get('fontsize') || '';
 
     const centerInput = cellInputs[12];
     if (freeSpaceToggle.checked) {

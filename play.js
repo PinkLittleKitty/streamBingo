@@ -95,6 +95,27 @@ async function init() {
     document.body.classList.add('obs-mode');
   }
 
+  const theme = urlParams.get('theme');
+  if (theme) {
+    document.body.classList.add(`theme-${theme}`);
+  }
+
+  const size = urlParams.get('size');
+  if (size) {
+    const wrapper = document.querySelector('.bingo-board-wrapper');
+    if (wrapper) {
+      wrapper.style.width = size;
+      wrapper.style.height = size;
+      wrapper.style.maxWidth = 'none';
+      wrapper.style.maxHeight = 'none';
+    }
+  }
+
+  const fontsize = urlParams.get('fontsize');
+  if (fontsize) {
+    document.documentElement.style.setProperty('--cell-font-size-override', fontsize);
+  }
+
   try {
     const decompressed = await decompressData(cardCompressedStr);
     const compact = JSON.parse(decompressed);
@@ -304,7 +325,15 @@ btnResetBoard.addEventListener('click', () => {
 
 btnEditBoard.addEventListener('click', () => {
   const baseDir = window.location.href.substring(0, window.location.href.lastIndexOf('/'));
-  window.location.href = `${baseDir}/index.html?c=${cardCompressedStr}`;
+  const urlParams = new URLSearchParams(window.location.search);
+  let editUrl = `${baseDir}/index.html?c=${cardCompressedStr}`;
+  const theme = urlParams.get('theme');
+  const size = urlParams.get('size');
+  const fontsize = urlParams.get('fontsize');
+  if (theme) editUrl += `&theme=${theme}`;
+  if (size) editUrl += `&size=${encodeURIComponent(size)}`;
+  if (fontsize) editUrl += `&fontsize=${encodeURIComponent(fontsize)}`;
+  window.location.href = editUrl;
 });
 
 btnToggleObsPreview.addEventListener('click', () => {
@@ -319,7 +348,16 @@ function showShareModal(url) {
 btnSharePlay.addEventListener('click', () => {
   const newSeed = Math.floor(Math.random() * 1000000);
   const baseDir = window.location.href.substring(0, window.location.href.lastIndexOf('/'));
-  const shareUrl = `${baseDir}/play.html?c=${cardCompressedStr}&seed=${newSeed}`;
+  const urlParams = new URLSearchParams(window.location.search);
+  let shareUrl = `${baseDir}/play.html?c=${cardCompressedStr}&seed=${newSeed}`;
+
+  const theme = urlParams.get('theme');
+  const size = urlParams.get('size');
+  const fontsize = urlParams.get('fontsize');
+  if (theme) shareUrl += `&theme=${theme}`;
+  if (size) shareUrl += `&size=${encodeURIComponent(size)}`;
+  if (fontsize) shareUrl += `&fontsize=${encodeURIComponent(fontsize)}`;
+
   showShareModal(shareUrl);
 });
 
